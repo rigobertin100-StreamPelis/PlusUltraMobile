@@ -2,281 +2,1019 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Películas - Página 1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PlusUltra iOS Pro</title>
 
-<style>
-body { 
-  font-family: Arial, sans-serif; 
-  background:#0b0f1a; 
-  color:#fff; 
-  margin:0; 
-}
-
-/* HEADER */
-header { 
-  background: linear-gradient(145deg, #002f6c, #0057b8);
-  padding:20px; 
-  text-align:center; 
-  font-size:28px; 
-  font-weight:bold;
-}
-
-/* NAV */
-.nav { text-align:center; margin:25px; }
-
-.nav a { 
-  color:#fff; 
-  margin:10px; 
-  text-decoration:none; 
-  padding:12px 20px; 
-  border-radius:8px;
-  background: linear-gradient(145deg, #0057b8, #003c82);
-  display:inline-block;
-}
-
-/* GRID */
-.grid { 
-  display:grid; 
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); 
-  gap:25px; 
-  padding:20px; 
-}
-
-/* LINK */
-.card-link {
-  text-decoration:none;
-  color:inherit;
-}
-
-/* CARD */
-.card { 
-  position:relative;
-  border-radius:15px; 
-  overflow:visible;
-  transition:0.4s;
-}
-
-.card:hover {
-  transform: scale(1.08);
-  z-index:50;
-}
-
-.card img { 
-  width:100%; 
-  height:300px; 
-  object-fit:cover;
-  border-radius:15px;
-}
-
-/* TITULO */
-.card h3 { 
-  position:absolute;
-  bottom:10px;
-  left:10px;
-  right:10px;
-  margin:0;
-  font-size:16px;
-  z-index:2;
-}
-
-/* OVERLAY */
-.card::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:15px;
-  background:linear-gradient(to top, rgba(0,0,0,0.7), transparent);
-  opacity:0;
-  transition:0.3s;
-  pointer-events:none;
-}
-
-.card:hover::after {
-  opacity:1;
-}
-
-/* PREVIEW */
-.preview {
-  position:absolute;
-  top:0;
-  width:260px;
-  height:300px;
-  background:#111;
-  border-radius:10px;
-  padding:15px;
-  box-shadow:0 10px 30px rgba(0,0,0,0.9);
-  opacity:0;
-  transition:0.3s;
-  overflow-y:auto;
-  pointer-events:none;
-}
-
-.card:hover .preview {
-  opacity:1;
-}
-</style>
-
-</head>
-<body>
-
-<header>🎬 JuanPelis</header>
-
-<div class="nav">
-  <a href="index.html">🏠 Inicio</a>
-</div>
-
-<div class="grid">
-
-<!-- TODAS TUS PELICULAS -->
-
-<a class="card-link" href="https://t.me/c/3945913901/2134">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/pLQQMO77ohibggTKV6wmFs5LHYf.jpg">
-<h3>Super Mario Galaxy: La película (2026)</h3>
-<div class="preview">Mario y Luigi se enfrentan una nueva amenaza: Bowser Jr., viajando por las estrellas.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/1072">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/vHtH4xdcTbaCVftGwaeGFHfOB3p.jpg">
-<h3>Avatar: Fuego y ceniza (2025)</h3>
-<div class="preview">Jake Sully y Neytiri enfrentan una nueva amenaza en Pandora.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/832">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/kCb3QJNLi0alrk7i5aCphkkuoFl.jpg">
-<h3>Cumbres Borrascosas (2026)</h3>
-<div class="preview">Historia trágica de amor en la Inglaterra del siglo XVIII.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/166">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/3dH7p6eAfzDElYYFKfYWpf9xlsG.jpg">
-<h3>GOAT (2026)</h3>
-<div class="preview">Un cabrito con sueños busca convertirse en leyenda.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/73">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/q7aijAKE98Fcp6dgR6oWiUkFO2g.jpg">
-<h3>El Día del Fin del Mundo (2026)</h3>
-<div class="preview">Una familia lucha por sobrevivir en un mundo devastado.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/3">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/6yUxfwcDYR0RRfbxwGA7rhwreWU.jpg">
-<h3>Exterminio (2026)</h3>
-<div class="preview">Un científico enfrenta consecuencias que cambian el mundo.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/7">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/SPGBZj12OVOCZdYJVPIJcpOYvZ.jpg">
-<h3>Máquina de guerra (2026)</h3>
-<div class="preview">Un ingeniero lidera una misión peligrosa.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/2354">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/mgqAZeEI5hnAgeVZ0kAdYiPy1Rs.jpg">
-<h3>Sin piedad (2026)</h3>
-<div class="preview">Un detective tiene 90 minutos para probar su inocencia.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/53">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/x8ygUQ4YNd8iy0oEusS1bHI08A6.jpg">
-<h3>La Empleada (2025)</h3>
-<div class="preview">Una joven descubre oscuros secretos en una mansión.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/694">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/5XhV5Sk7w4h2tCNvXovkFfTNRli.jpg">
-<h3>Scream 7 (2026)</h3>
-<div class="preview">Ghostface regresa para sembrar terror.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/61">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/LrMBxFwnsMgXTnaWqHYinn3vDN.jpg">
-<h3>Zootopia 2 (2025)</h3>
-<div class="preview">Un nuevo misterio sacude la ciudad.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/75">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/pG39vgTEhHeYIlcPJtHpxNLdPPM.jpg">
-<h3>Equipo Demolición (2026)</h3>
-<div class="preview">Dos hermanos investigan un asesinato.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/774">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/i4EiDq1lXEEJIc439BVzdreQZEX.jpg">
-<h3>Silent Hill (2026)</h3>
-<div class="preview">Un regreso aterrador al pueblo maldito.</div>
-</div>
-</a>
-
-<a class="card-link" href="https://t.me/c/3945913901/1034">
-<div class="card">
-<img src="https://www.themoviedb.org/t/p/w1280/2EI8HmeQgbryWw5clWYc4vYj1tU.jpg">
-<h3>Caminos del crimen (2026)</h3>
-<div class="preview">Un ladrón planea su último golpe.</div>
-</div>
-</a>
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script src="https://www.gstatic.com/cv/js/cast_sender.js"></script>
 <script>
-/* POSICION AUTOMATICA */
-document.querySelectorAll(".card").forEach(card => {
-  card.addEventListener("mouseenter", () => {
-    const preview = card.querySelector(".preview");
-    const rect = card.getBoundingClientRect();
-    const spaceRight = window.innerWidth - rect.right;
+window.castAvailable = false;
 
-    if (spaceRight < 280) {
-      preview.style.left = "auto";
-      preview.style.right = "105%";
-    } else {
-      preview.style.left = "105%";
-      preview.style.right = "auto";
-    }
-  });
-});
+window['__onGCastApiAvailable'] = function(isAvailable) {
+  console.log("Cast API disponible:", isAvailable);
 
-/* 🔥 MODO INTELIGENTE */
-document.querySelectorAll("a.card-link").forEach(link => {
-  link.addEventListener("click", function(e) {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isAvailable && window.cast && window.chrome) {
+    window.castAvailable = true;
 
-    if (isMobile) {
-      // abrir app telegram
-      e.preventDefault();
-      window.location.href = this.href;
-    } else {
-      // nueva pestaña en PC
-      this.setAttribute("target", "_blank");
-    }
-  });
-});
+    const btn = document.getElementById("castBtn");
+    if (btn) btn.style.display = "inline-block";
+  }
+};
 </script>
 
+<style>
+body{
+margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto;
+background:linear-gradient(to bottom,#1c1c1e,#2c2c2e);
+color:white;
+padding-top:90px;
+}
+
+.header{
+position:fixed;
+top:0;left:0;width:100%;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:18px 28px;
+z-index:9999;
+background:rgba(28,28,30,.35);
+backdrop-filter:blur(25px);
+transition:.3s;
+border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.header.scrolled{
+background:rgba(28,28,30,.9);
+box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+
+.logo{
+font-size:34px;
+font-weight:700;
+color:#0a84ff;
+}
+
+.search{
+padding:10px 18px;
+border-radius:24px;
+border:none;
+width:320px;
+font-size:16px;
+background:rgba(255,255,255,.1);
+color:white;
+outline:none;
+}
+.header-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.search{
+  width:260px; /* más chico para que quepa */
+}
+
+.logout{
+  white-space:nowrap;
+}
+  
+.row{
+margin-top:50px;
+padding-left:20px;
+padding-bottom:10px;
+}
+
+.row h2{
+font-size:22px;
+margin-bottom:14px;
+}
+
+.carousel{
+display:flex;
+gap:18px;
+overflow-x:auto;
+padding-bottom:18px;
+}
+
+.carousel::-webkit-scrollbar{
+height:8px;
+}
+
+.carousel::-webkit-scrollbar-thumb{
+background:rgba(255,255,255,.2);
+border-radius:4px;
+}
+
+.card{
+width:280px;
+flex-shrink:0;
+aspect-ratio:2/3;
+position:relative;
+border-radius:24px;
+overflow:hidden;
+cursor:pointer;
+transition:.3s;
+}
+
+.card:hover{
+transform:scale(1.08);
+}
+
+.card img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.preview-fake{
+position:absolute;
+inset:0;
+opacity:0;
+background-size:cover;
+transition:.3s;
+}
+
+.card:hover .preview-fake{
+opacity:.15;
+}
+
+.player,.series-modal{
+position:fixed;
+inset:0;
+display:none;
+justify-content:center;
+align-items:center;
+z-index:999999;
+}
+
+.player{
+background:rgba(0,0,0,.95);
+}
+
+.series-modal{
+background:rgba(28,28,30,.95);
+}
+
+.player-inner,.series-inner{
+width:88vw;
+height:82vh;
+background:#1c1c1e;
+border-radius:24px;
+overflow:hidden;
+position:relative;
+display:flex;
+flex-direction:column;
+align-items:center;
+padding:20px;
+}
+
+video{
+width:100%;
+height:100%;
+border-radius:24px;
+}
+
+.close{
+position:absolute;
+top:14px;
+right:24px;
+font-size:30px;
+cursor:pointer;
+color:white;
+z-index:20;
+}
+
+.player-nav{
+position:absolute;
+top:14px;
+left:24px;
+z-index:20;
+display:flex;
+gap:10px;
+}
+
+.player-nav button,
+.episode-list button,
+.continue-btn,
+.logout,
+#loginBox button{
+padding:10px 14px;
+border:none;
+border-radius:12px;
+background:#0a84ff;
+color:#fff;
+cursor:pointer;
+font-weight:bold;
+}
+
+.logout{
+background:#ff3b30;
+margin-left:10px;
+}
+
+.player-nav button{
+font-size:18px;
+padding:8px 14px;
+border-radius:10px;
+}
+
+.episode-list{
+width:100%;
+display:flex;
+flex-wrap:wrap;
+gap:12px;
+margin-top:20px;
+overflow-y:auto;
+}
+
+.season-select{
+margin-top:10px;
+padding:8px 14px;
+border-radius:12px;
+border:none;
+background:rgba(255,255,255,.1);
+color:white;
+font-size:16px;
+}
+
+#loginModal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.95);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999999;
+}
+
+#loginBox{
+background:#1c1c1e;
+padding:40px;
+border-radius:24px;
+display:flex;
+flex-direction:column;
+gap:16px;
+width:320px;
+align-items:center;
+}
+
+#loginBox input{
+padding:10px 14px;
+border-radius:12px;
+border:none;
+width:100%;
+font-size:16px;
+}
+
+#loginError{
+display:none;
+color:#ff453a;
+}
+
+.continue-card{
+position:relative;
+}
+
+.continue-overlay{
+position:absolute;
+left:0;
+right:0;
+bottom:0;
+padding:14px;
+background:linear-gradient(to top,rgba(0,0,0,.88),transparent);
+display:flex;
+flex-direction:column;
+gap:6px;
+}
+
+.continue-info{
+font-size:14px;
+font-weight:500;
+}
+
+.continue-line{
+height:3px;
+border-radius:999px;
+background:#0a84ff;
+}
+
+.season-select {
+    margin-top:10px;
+    padding:10px 14px;
+    border-radius:12px;
+    background:rgba(255,255,255,.1);
+    color:white;
+    font-size:16px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.season-option {
+    padding:8px 12px;
+    background:#0a84ff;
+    border-radius:10px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.season-option.active {
+    background:#005fcc;
+}
+
+.episode-indicator{
+  position:absolute;
+  top:60px;
+  left:50%;
+  transform:translateX(-50%);
+  background:rgba(0,0,0,.7);
+  padding:10px 18px;
+  border-radius:14px;
+  font-size:16px;
+  opacity:0;
+  transition:opacity .4s ease;
+  z-index:30;
+  pointer-events:none;
+}
+
+.episode-indicator.show{
+  opacity:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loginModal">
+<div id="loginBox">
+<h2>Iniciar Sesión</h2>
+<input id="loginUser" type="email" placeholder="Correo">
+<input id="loginPass" type="password" placeholder="Contraseña">
+<button id="loginBtn">Ingresar</button>
+<p id="loginError">Usuario o contraseña incorrectos</p>
+</div>
+</div>
+
+<div class="header">
+<div class="logo">PlusUltra</div>
+
+<div class="header-right">
+<input id="search" class="search" placeholder="Buscar...">
+<button class="logout" onclick="logout()">Salir</button>
+</div>
+</div>
+
+<div id="app"></div>
+
+<div class="player" id="player">
+<div class="player-inner">
+
+<span class="close" onclick="closeVideo()">✖</span>
+
+<div class="player-nav" id="playerNav">
+<button onclick="prevEpisode()">⏮</button>
+<button onclick="nextEpisode()">⏭</button>
+<button id="castBtn" onclick="castVideo()">📺 Cast</button>
+</div>
+
+<div id="episodeIndicator" class="episode-indicator"></div>
+
+<video id="video" controls controlsList="nodownload"></video>
+
+</div>
+</div>
+
+<div class="series-modal" id="seriesModal">
+<div class="series-inner">
+<span class="close" onclick="closeSeriesModal()">✖</span>
+<h2 id="seriesTitle"></h2>
+<div id="seasonSelect" class="season-select"></div>
+<div class="episode-list" id="episodeList"></div>
+</div>
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+getAuth,
+signInWithEmailAndPassword,
+onAuthStateChanged,
+signOut
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyAt1E2XmlsxV52dAwRaXW_e4XdDQxiP8lg",
+authDomain: "midata-40f73.firebaseapp.com",
+projectId: "midata-40f73",
+storageBucket: "midata-40f73.firebasestorage.app",
+messagingSenderId: "104287406146",
+appId: "1:104287406146:web:d9fad446e22629559dc5db"
+};
+
+const appFirebase = initializeApp(firebaseConfig);
+const auth = getAuth(appFirebase);
+
+let allVideos = [];
+let currentSeries = null;
+let currentSeason = 0;
+let currentEpisode = 0;
+
+window.addEventListener("scroll",()=>{
+document.querySelector(".header")
+.classList.toggle("scrolled",window.scrollY>20);
+});
+
+const STORAGE_KEY="continueWatching";
+
+function getProgress(){
+return JSON.parse(localStorage.getItem(STORAGE_KEY)||"{}");
+}
+
+function saveProgress(id,time,duration){
+const data=getProgress();
+
+data[id]={
+time,
+duration,
+updated:Date.now(),
+season:currentSeries ? currentSeason : null,
+episode:currentSeries ? currentEpisode : null
+};
+
+localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+}
+
+const playerController = {
+  video:null,
+  hls:null,
+  currentId:null,
+
+  init(){
+    this.video = document.getElementById("video");
+
+    let lastSave = 0;
+
+    this.video.addEventListener("timeupdate", () => {
+      const now = Date.now();
+
+      if(this.currentId && now - lastSave > 5000){
+        saveProgress(
+          this.currentId,
+          this.video.currentTime,
+          this.video.duration
+        );
+        lastSave = now;
+      }
+    });
+
+    // AUTO NEXT / AUTO CLOSE
+    this.video.addEventListener("ended", () => {
+
+      if(currentSeries){
+
+        const season = currentSeries.temporadas[currentSeason];
+
+        const isLastEpisode = currentEpisode === season.episodios.length - 1;
+        const isLastSeason = currentSeason === currentSeries.temporadas.length - 1;
+
+        if(isLastEpisode && isLastSeason){
+          closeVideo();
+        } else {
+          nextEpisode();
+        }
+
+      } else {
+        closeVideo();
+      }
+
+    });
+
+  },
+
+  play(v){
+    this.cleanup();
+
+    this.currentId = currentSeries
+      ? `${currentSeries.titulo}-S${currentSeason}-E${currentEpisode}`
+      : v.titulo;
+
+    const progress = getProgress()[this.currentId];
+
+    if(v.url.includes(".m3u8") && Hls.isSupported()){
+
+      this.hls = new Hls();
+      this.hls.loadSource(v.url);
+      this.hls.attachMedia(this.video);
+
+      this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      if(progress?.time) this.video.currentTime = progress.time;
+      this.video.play();
+
+      showEpisodeIndicator();
+      });
+
+    } else {
+
+      this.video.src = v.url;
+
+     this.video.onloadedmetadata = () => {
+     if(progress?.time) this.video.currentTime = progress.time;
+     this.video.play();
+
+     showEpisodeIndicator();
+      };
+
+    }
+  },
+
+  cleanup(){
+    if(this.hls){
+      this.hls.destroy();
+      this.hls = null;
+    }
+
+    this.video.pause();
+    this.video.removeAttribute("src");
+    this.video.load();
+    this.currentId = null;
+  }
+};
+  
+function openVideo(v){
+
+  document.getElementById("player").style.display="flex";
+
+  document.getElementById("playerNav").style.display=
+  currentSeries ? "flex" : "none";
+
+  playerController.play(v);
+
+}
+
+function showEpisodeIndicator(){
+
+  if(!currentSeries) return;
+
+  const el = document.getElementById("episodeIndicator");
+
+  el.innerText = `T${currentSeason+1} • E${currentEpisode+1}`;
+  el.classList.add("show");
+
+  setTimeout(()=>{
+    el.classList.remove("show");
+  },3000);
+
+}
+
+window.closeVideo=function(){
+
+playerController.cleanup();
+document.getElementById("player").style.display="none";
+
+if(currentSeries && currentSeries.temporadas){
+
+document.getElementById("seriesModal").style.display="flex";
+document.getElementById("seasonSelect").value=currentSeason;
+renderEpisodes(currentSeason);
+
+}
+};
+
+function openSeriesModal(series){
+
+currentSeries=series;
+
+document.getElementById("seriesModal").style.display="flex";
+document.getElementById("seriesTitle").innerText=series.titulo;
+
+fetch(series.temporadasUrl)
+.then(r=>r.json())
+.then(data=>{
+
+currentSeries.temporadas=data;
+
+const seasonBox = document.getElementById("seasonSelect");
+seasonBox.innerHTML = "";
+
+data.forEach((t, i) => {
+
+    const btn = document.createElement("div");
+    btn.className = "season-option";
+    btn.innerText = "Temporada " + t.numero;
+
+    if (i === currentSeason) {
+        btn.classList.add("active");
+    }
+
+    btn.onclick = () => {
+
+        currentSeason = i;
+
+        document.querySelectorAll(".season-option")
+            .forEach(b => b.classList.remove("active"));
+
+        btn.classList.add("active");
+
+        renderEpisodes(currentSeason);
+    };
+
+    seasonBox.appendChild(btn);
+});
+
+renderEpisodes(currentSeason);
+
+});
+}
+
+window.closeSeriesModal=function(reset=true){
+
+document.getElementById("seriesModal").style.display="none";
+
+if(reset){
+currentSeries=null;
+currentSeason=0;
+currentEpisode=0;
+}
+};
+
+function renderEpisodes(index){
+
+const list=document.getElementById("episodeList");
+list.innerHTML="";
+
+const season=currentSeries.temporadas[index];
+
+season.episodios.forEach((ep,i)=>{
+
+const btn=document.createElement("button");
+btn.innerText=ep.titulo;
+
+btn.onclick=()=>{
+currentEpisode=i;
+closeSeriesModal(false);
+openVideo(ep);
+};
+
+list.appendChild(btn);
+
+});
+}
+
+window.nextEpisode=function(){
+
+if(!currentSeries) return;
+
+const season=currentSeries.temporadas[currentSeason];
+
+if(currentEpisode < season.episodios.length-1){
+
+currentEpisode++;
+openVideo(season.episodios[currentEpisode]);
+return;
+
+}
+
+if(currentSeason < currentSeries.temporadas.length-1){
+
+currentSeason++;
+currentEpisode=0;
+
+document.getElementById("seasonSelect").value=currentSeason;
+
+openVideo(
+currentSeries.temporadas[currentSeason].episodios[0]
+);
+
+}
+};
+
+window.prevEpisode=function(){
+
+if(!currentSeries) return;
+
+const season=currentSeries.temporadas[currentSeason];
+
+if(currentEpisode>0){
+currentEpisode--;
+openVideo(season.episodios[currentEpisode]);
+}
+};
+
+function buildUI(){
+
+document.getElementById("app").innerHTML=`
+<div class="row"><h2>🆕 Agregadas recientemente</h2><div class="carousel" id="recentRow"></div></div>
+<div class="row"><h2>🔄 Continuar viendo</h2><div class="carousel" id="continueRow"></div></div>
+
+<!-- NUEVA FILA -->
+<div class="row"><h2>🍿 Del Cine a tu Casa</h2><div class="carousel" id="cineRow"></div></div>
+
+<div class="row"><h2>🎬 Películas</h2><div class="carousel" id="peliculasRow"></div></div>
+<div class="row"><h2>📺 Series</h2><div class="carousel" id="seriesRow"></div></div>
+<div class="row"><h2>🍥 Anime</h2><div class="carousel" id="animeRow"></div></div>
+`;
+
+renderAll();
+}
+
+function renderAll(){
+
+renderRow(allVideos.filter(v=>v.tipo==="pelicula"),"peliculasRow");
+renderRow(allVideos.filter(v=>v.tipo==="serie"),"seriesRow");
+renderRow(allVideos.filter(v=>v.tipo==="anime"),"animeRow");
+
+// NUEVO FILTRO
+renderRow(allVideos.filter(v=>v.tipo==="cine"),"cineRow");
+
+renderRecent();
+renderContinue();
+}
+
+function renderRow(list,id){
+
+const row=document.getElementById(id);
+row.innerHTML="";
+
+list.forEach(v=>{
+
+const card=document.createElement("div");
+card.className="card";
+card.dataset.title=v.titulo.toLowerCase();
+
+card.innerHTML=`
+<img src="${v.img}">
+<div class="preview-fake" style="background-image:url(${v.img})"></div>
+`;
+
+card.onclick=()=>{
+
+if(v.tipo==="serie" || v.tipo==="anime"){
+openSeriesModal(v);
+}else{
+currentSeries=null;
+openVideo(v);
+}
+
+};
+
+row.appendChild(card);
+
+});
+}
+
+function renderRecent(){
+renderRow(allVideos.slice(-10),"recentRow");
+}
+
+function renderContinue(){
+
+const data = getProgress();
+
+const list = Object.keys(data)
+.map(id => {
+
+// SERIES / ANIME
+if(id.includes("-S")){
+const [title, s, e] = id.split("-");
+const serie = allVideos.find(v => v.titulo === title);
+if(!serie) return null;
+
+return {
+  ...serie,
+  _progressId: id,
+  _season: parseInt(s.replace("S","")),
+  _episode: parseInt(e.replace("E",""))
+};
+}
+
+// PELÍCULA / CINE
+return allVideos.find(v => v.titulo === id);
+
+})
+.filter(Boolean)
+.reduce((acc, v) => {
+
+  // SERIES / ANIME
+  if(v.tipo === "serie" || v.tipo === "anime"){
+
+    const existing = acc.find(x => x.titulo === v.titulo);
+
+    if(!existing){
+      acc.push(v);
+    }else{
+
+      const currentProg = data[v._progressId] || {};
+      const existingProg = data[existing._progressId] || {};
+
+      if((currentProg.updated || 0) > (existingProg.updated || 0)){
+        const index = acc.indexOf(existing);
+        acc[index] = v;
+      }
+
+    }
+
+  } else {
+    // PELÍCULAS / CINE
+    acc.push(v);
+  }
+
+  return acc;
+
+}, [])
+
+.sort((a,b)=>data[b._progressId || b.titulo].updated - data[a._progressId || a.titulo].updated)
+.slice(0,5);
+
+const row = document.getElementById("continueRow");
+row.innerHTML = "";
+
+list.forEach(v => {
+
+const prog = data[v._progressId || v.titulo];
+
+if(!prog?.duration || prog.time >= prog.duration * .95) return;
+
+const remain = Math.ceil((prog.duration - prog.time) / 60);
+
+let info = `Quedan ${remain} min`;
+
+if(v.tipo==="serie" || v.tipo==="anime"){
+info = `T${(v._season ?? prog.season ?? 0)+1}:E${(v._episode ?? prog.episode ?? 0)+1} • ${remain} min restantes`;
+}
+
+const percent = Math.max(8,(prog.time / prog.duration) * 100);
+
+const card = document.createElement("div");
+card.className = "card continue-card";
+
+card.innerHTML = `
+<img src="${v.img}">
+<div class="preview-fake" style="background-image:url(${v.img})"></div>
+
+<div class="continue-overlay">
+<button class="continue-btn">▶ Continuar</button>
+<div class="continue-info">${info}</div>
+<div class="continue-line" style="width:${percent}%"></div>
+</div>
+`;
+
+card.onclick = () => {
+
+if(v.tipo==="pelicula" || v.tipo==="cine"){
+
+currentSeries = null;
+openVideo(v);
+
+}else{
+
+currentSeries = v;
+currentSeason = v._season ?? prog.season ?? 0;
+currentEpisode = v._episode ?? prog.episode ?? 0;
+
+fetch(v.temporadasUrl)
+.then(r=>r.json())
+.then(data=>{
+
+currentSeries.temporadas = data;
+
+openVideo(
+data[currentSeason].episodios[currentEpisode]
+);
+
+});
+
+}
+
+};
+
+row.appendChild(card);
+
+});
+
+}
+
+document.getElementById("search").addEventListener("input",(e)=>{
+
+const txt=e.target.value.toLowerCase();
+
+document.querySelectorAll(".card").forEach(c=>{
+c.style.display=
+c.dataset.title.includes(txt) ? "block" : "none";
+});
+
+});
+
+document.getElementById("loginBtn").onclick=async()=>{
+
+const email=document.getElementById("loginUser").value.trim();
+const pass=document.getElementById("loginPass").value.trim();
+
+try{
+await signInWithEmailAndPassword(auth,email,pass);
+}
+
+catch(e){
+  console.error(e);
+
+  document.getElementById("loginError").innerText =
+  e.message;
+
+  document.getElementById("loginError").style.display="block";
+}
+
+};
+
+onAuthStateChanged(auth,(user)=>{
+
+if(user){
+
+document.getElementById("loginModal").style.display="none";
+
+playerController.init();
+
+fetch("videos.json")
+.then(r=>r.json())
+.then(data=>{
+allVideos=data;
+buildUI();
+});
+
+}else{
+
+document.getElementById("loginModal").style.display="flex";
+
+}
+
+});
+
+window.logout=async function(){
+await signOut(auth);
+};
+
+// ============================
+// 📺 CAST (SAFE - NO BREAK)
+// ============================
+
+let castReady = false;
+let castContext = null;
+
+window.__onGCastApiAvailable = function(isAvailable) {
+  if (!isAvailable) return;
+
+  try {
+    castContext = cast.framework.CastContext.getInstance();
+
+    castContext.setOptions({
+      receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+      autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+    });
+
+    castReady = true;
+    console.log("Cast listo");
+
+  } catch (e) {
+    console.log("Cast error:", e);
+  }
+};
+
+window.castVideo = function () {
+  if (!castReady || !castContext) {
+    alert("Chromecast no disponible");
+    return;
+  }
+
+  const video = document.getElementById("video");
+  const url = video.src;
+
+  if (!url) return;
+
+  castContext.requestSession().then(() => {
+
+    const session = castContext.getCurrentSession();
+
+    const mediaInfo = new chrome.cast.media.MediaInfo(url, "video/mp4");
+
+    const request = new chrome.cast.media.LoadRequest(mediaInfo);
+
+    session.loadMedia(request)
+      .then(() => console.log("📺 En TV"))
+      .catch(err => console.log(err));
+
+  }).catch(err => console.log(err));
+};
+
+// opcional: ocultar botón si no hay cast
+setTimeout(() => {
+  if (!castReady) {
+    const btn = document.getElementById("castBtn");
+    if (btn) btn.style.display = "none";
+  }
+}, 3000);
+
+</script>
 </body>
 </html>
