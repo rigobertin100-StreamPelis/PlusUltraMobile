@@ -67,6 +67,36 @@ input {
     user-select: text;
     -webkit-user-select: text;
 }
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+    z-index: 100005; /* Por encima de todo */
+    background: rgba(0, 0, 0, 0.5); /* Círculo semitransparente */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    backdrop-filter: blur(5px);
+}
+@media (min-width: 601px) {
+    .close {
+        display: flex; /* Se muestra en pantallas grandes */
+    }
+}
+
+@media (max-width: 600px) {
+    .close {
+        display: none; /* Se oculta en celulares para usar el player nativo */
+    }
+}
+
         /* BASE & LAYOUT */
         body {
             margin: 0; 
@@ -90,6 +120,14 @@ input {
             transition: background 0.4s ease, padding 0.4s ease;
             box-sizing: border-box;
         }
+
+.header .logo {
+    color: #007aff !important; /* Fuerza el azul vibrante */
+    font-weight: 900;
+    text-shadow: 0 0 20px rgba(0, 122, 255, 0.6); /* El resplandor que viste en la imagen */
+    filter: drop-shadow(0 0 5px rgba(0, 122, 255, 0.3));
+    text-transform: uppercase; /* Opcional, para darle más fuerza */
+}
 
         .header.scrolled {
             background: rgba(10, 10, 10, 0.95);
@@ -287,7 +325,7 @@ input {
 </div>
 
 <div class="header">
-    <div class="logo">PlusUltra</div>
+    <div class="logo">PLUS ULTRA</div>
     <div class="header-right">
         <input id="search" class="search" placeholder="Buscar..." tabindex="0">
         <button class="logout" onclick="logout()" tabindex="0">Salir</button>
@@ -633,21 +671,29 @@ window.openVideo = async (v) => {
     document.getElementById("seriesModal").style.display = "none";
     document.getElementById("player").style.display = "flex";
 
+    // Detectamos si es Serie o Anime
     const isMultiEpisode = currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime");
 
-    // CONFIGURACIÓN PARA CELULARES (FIJA)
-// CONFIGURACIÓN DINÁMICA SEGÚN DISPOSITIVO
-        if (window.innerWidth <= 600) {
-            // En celulares ocultamos la barra pequeña pero dejamos controles nativos
-            playerNav.style.display = "none"; 
-            videoElement.controls = true; 
-            customOverlay.style.display = isMultiEpisode ? "flex" : "none";
-        } else {
-            // En pantallas grandes usamos tu barra personalizada y ocultamos controles nativos
+    // LÓGICA PARA CELULARES Y PANTALLAS
+    if (window.innerWidth <= 600) {
+        // En celulares (Mobile): Limpieza total, usamos controles nativos
+        playerNav.style.display = "none";
+        videoElement.controls = true; 
+        customOverlay.style.display = "none";
+    } else {
+        // En pantallas grandes (TV/PC):
+        if (isMultiEpisode) {
+            // Si es serie, dejamos la barra para cambiar capítulos[cite: 1]
             playerNav.style.display = "flex";
-            videoElement.controls = false;
+            videoElement.controls = true;
+            customOverlay.style.display = "none";
+        } else {
+            // Si es película, ocultamos todo y dejamos solo el player nativo[cite: 1]
+            playerNav.style.display = "none";
+            videoElement.controls = true;
             customOverlay.style.display = "none";
         }
+    }
 
     let finalUrl = v.url;
     if (v.fileKey) {
