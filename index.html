@@ -371,6 +371,39 @@ input {
             .modal-info-content {flex-direction: column; padding: 20px;}
             .info-right {align-items: flex-end; justify-content: flex-end;}
         }
+        /* Botón Siguiente Episodio Estilo iOS */
+.next-ep-player-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px); /* Efecto Glassmorphism */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    z-index: 100;
+    transition: opacity 0.5s ease, transform 0.2s ease;
+    opacity: 0; /* Empieza oculto */
+    pointer-events: none;
+}
+
+.next-ep-player-btn:active {
+    transform: scale(0.95);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.next-ep-player-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
     </style>
 </head>
 
@@ -429,6 +462,9 @@ input {
         <div id="playerCustomControls" class="custom-controls-overlay">
             <button id="prevEpisodeBtn" class="nav-ep-btn left" onclick="window.prevEpisode()">❮ Anterior</button>
             <button id="nextEpisodeBtn" class="nav-ep-btn right" onclick="window.nextEpisode()">Siguiente ❯</button>
+        </div>
+        <div id="nextEpisodeBtnPlayer" class="next-ep-player-btn" onclick="nextEpisode()">
+            Next Episode <span style="font-size: 18px; margin-left: 5px;">›</span>
         </div>
     </div>
 </div>
@@ -1224,6 +1260,49 @@ window.nextEpisode = nextEpisode;
 window.prevEpisode = prevEpisode;
 window.toggleFullScreen = toggleFullScreen;
 window.openVideo = openVideo;
+
+    // --- LÓGICA DEL BOTÓN SIGUIENTE CAPÍTULO ---
+let nextBtnTimer;
+
+function showNextButton() {
+    const nextBtn = document.getElementById('nextEpisodeBtnPlayer');
+    if (!nextBtn) return;
+
+    // Solo funciona en Series y Anime
+    if (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) {
+        nextBtn.classList.add('visible');
+        
+        // Timer de 7 segundos para desvanecer
+        clearTimeout(nextBtnTimer);
+        nextBtnTimer = setTimeout(() => {
+            nextBtn.classList.remove('visible');
+        }, 7000); 
+    }
+}
+
+window.nextEpisode = () => {
+    // Buscar siguiente capítulo
+    let nextEp = currentSeries.episodios.find(e => 
+        e.temporada === currentEpisode.temporada && e.episodio === (currentEpisode.episodio + 1)
+    );
+
+    if (nextEp) {
+        playEpisode(nextEp);
+    } else {
+        // Buscar primer capítulo de la siguiente temporada
+        let nextSeasonEp = currentSeries.episodios.find(e => 
+            e.temporada === (currentEpisode.temporada + 1) && e.episodio === 1
+        );
+        
+        if (nextSeasonEp) {
+            playEpisode(nextSeasonEp);
+        } else {
+            // Si no hay más, cerrar
+            closeVideo(); 
+        }
+    }
+    // PEGA ESTA LÍNEA AQUÍ:
+document.getElementById('player').addEventListener('mousemove', showNextButton);
 
 </script>
 </body>
