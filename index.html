@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PlusUltra Pro</title>
 
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -92,22 +92,43 @@ input {
 }
 
 @media (max-width: 600px) {
-    .close {
-        display: none; /* Se oculta en celulares para usar el player nativo */
+    .btn-catalog span { display: none; }
+    .search { width: 120px; }
+    
+    /* Reducimos los títulos de las secciones */
+    .row h2 {
+        font-size: 18px; 
+        margin-bottom: 10px;
+    }
+
+    /* Hacemos las cards más pequeñas para que quepan mejor */
+    .card {
+        width: 30vw; /* Ajusta el ancho al 30% de la pantalla del cel */
+        border-radius: 12px; /* Bordes más finos para pantallas pequeñas */
+    }
+
+    .modal-info-content {
+        flex-direction: column; 
+        padding: 20px;
+    }
+    
+    .info-right {
+        align-items: flex-end; 
+        justify-content: flex-end;
     }
 }
 
         /* BASE & LAYOUT */
-        body {
-            margin: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            letter-spacing: -0.022em; 
-            background: #000000; 
-            color: white; 
-            padding-top: 90px; 
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
+body {
+    margin: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+    letter-spacing: -0.022em; 
+    background: #000000; 
+    color: white; 
+    padding-top: 100px; /* Cambiado de 90px a 100px */
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
         
         .header {
             position: fixed; top: 0; left: 0; width: 100%; 
@@ -122,11 +143,20 @@ input {
         }
 
 .header .logo {
-    color: #007aff !important; /* Fuerza el azul vibrante */
+    color: #007aff !important; 
     font-weight: 900;
-    text-shadow: 0 0 20px rgba(0, 122, 255, 0.6); /* El resplandor que viste en la imagen */
-    filter: drop-shadow(0 0 5px rgba(0, 122, 255, 0.3));
-    text-transform: uppercase; /* Opcional, para darle más fuerza */
+    font-size: 36px; /* Tamaño base */
+    text-shadow: 0 0 25px rgba(0, 122, 255, 0.6); 
+    filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.3));
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+/* Ajuste específico para que el logo no sea gigante en el cel */
+@media (max-width: 600px) {
+    .header .logo {
+        font-size: 28px; 
+    }
 }
 
         .header.scrolled {
