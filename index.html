@@ -389,7 +389,7 @@ input {
     display: flex;
     align-items: center;
     gap: 8px;
-    z-index: 9999;
+    z-index: 2147483647 !important;
     transition: opacity 0.5s ease, transform 0.2s ease;
     opacity: 0; /* Empieza oculto */
     pointer-events: none;
@@ -631,9 +631,22 @@ window.addEventListener('keydown', (e) => {
 
 
 window.toggleFullScreen = () => {
-    const video = document.getElementById("video");
-    if (video.requestFullscreen) video.requestFullscreen();
-    else if (video.webkitRequestFullscreen) video.webkitRequestFullscreen();
+    // Apuntamos al DIV contenedor, no a la etiqueta video
+    const playerContainer = document.getElementById("player"); 
+    
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (playerContainer.requestFullscreen) {
+            playerContainer.requestFullscreen();
+        } else if (playerContainer.webkitRequestFullscreen) {
+            playerContainer.webkitRequestFullscreen();
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        }
+    }
 };
 
 const STORAGE_KEY="plus_ultra_progress";
@@ -797,10 +810,14 @@ window.openVideo = async (v) => {
 
     // Lógica de visibilidad del botón "Siguiente Episodio"
     // Solo se muestra si es una serie o anime
-    if (isMultiEpisode && nextBtn) {
+if (isMultiEpisode && nextBtn) {
         nextBtn.style.display = "flex";
+        nextBtn.style.opacity = "1";        // Esto activa la visibilidad
+        nextBtn.style.pointerEvents = "auto"; // Esto permite que se pueda clickear
     } else if (nextBtn) {
         nextBtn.style.display = "none";
+        nextBtn.style.opacity = "0";
+        nextBtn.style.pointerEvents = "none";
     }
 
     // Lógica para obtener la URL del video desde Cloudflare R2
