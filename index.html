@@ -104,7 +104,7 @@ input {
             letter-spacing: -0.022em; 
             background: #000000; 
             color: white; 
-            padding-top: 90px; 
+            padding-top: 140px; 
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -112,7 +112,7 @@ input {
         .header {
             position: fixed; top: 0; left: 0; width: 100%; 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 14px 28px; z-index: 1000;
+            padding: 20px 28px; z-index: 1000;
             background: rgba(18, 18, 18, 0.6); 
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%); 
@@ -122,11 +122,13 @@ input {
         }
 
 .header .logo {
-    color: #007aff !important; /* Fuerza el azul vibrante */
+    color: #007aff !important; 
     font-weight: 900;
-    text-shadow: 0 0 20px rgba(0, 122, 255, 0.6); /* El resplandor que viste en la imagen */
-    filter: drop-shadow(0 0 5px rgba(0, 122, 255, 0.3));
-    text-transform: uppercase; /* Opcional, para darle más fuerza */
+    font-size: 72px; 
+    text-shadow: 0 0 45px rgba(0, 122, 255, 0.7); 
+    filter: drop-shadow(0 0 15px rgba(0, 122, 255, 0.4));
+    text-transform: uppercase;
+    letter-spacing: -1.5px;
 }
 
         .header.scrolled {
