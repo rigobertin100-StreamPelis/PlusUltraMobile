@@ -93,7 +93,7 @@ input {
 
 @media (max-width: 600px) {
     .close {
-        display: none; /* Se oculta en celulares para usar el player nativo */
+        display: none; /* Se oculte en celulares para usar el player nativo */
     }
 }
 
@@ -779,21 +779,21 @@ window.openVideo = async (v) => {
     // Detectamos si es Serie o Anime
     const isMultiEpisode = currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime");
 
-    // LÓGICA PARA CELULARES Y PANTALLAS
+    // LÓGICA DE VISIBILIDAD DE CONTROLES[cite: 1, 2]
     if (window.innerWidth <= 600) {
-        // En celulares (Mobile): Limpieza total, usamos controles nativos
+        // En celulares (Mobile): Usamos controles nativos, ocultamos los personalizados
         playerNav.style.display = "none";
         videoElement.controls = true; 
         customOverlay.style.display = "none";
     } else {
         // En pantallas grandes (TV/PC):
         if (isMultiEpisode) {
-            // Si es serie, dejamos la barra para cambiar capítulos[cite: 1]
+            // Si es serie, mostramos la barra personalizada para cambiar episodios[cite: 1]
             playerNav.style.display = "flex";
             videoElement.controls = true;
             customOverlay.style.display = "none";
         } else {
-            // Si es película, ocultamos todo y dejamos solo el player nativo[cite: 1]
+            // Si es película, ocultamos los botones de navegación (Cine/Películas)[cite: 1]
             playerNav.style.display = "none";
             videoElement.controls = true;
             customOverlay.style.display = "none";
@@ -973,15 +973,20 @@ function renderEpisodes(idx) {
     });
 }
 
+// NAVEGACIÓN DE EPISODIOS CORREGIDA[cite: 1]
 window.nextEpisode = () => {
     if (!currentSeries) return;
     const temp = currentSeries.temporadas[currentSeason];
     if (currentEpisode < temp.episodios.length - 1) { 
-        currentEpisode++; window.openVideo(temp.episodios[currentEpisode]); 
+        currentEpisode++; 
+        window.openVideo(temp.episodios[currentEpisode]); 
     } else if (currentSeason < currentSeries.temporadas.length - 1) { 
-        currentSeason++; currentEpisode = 0; 
+        currentSeason++; 
+        currentEpisode = 0; 
         window.openVideo(currentSeries.temporadas[currentSeason].episodios[currentEpisode]); 
-    } else window.closeVideo();
+    } else {
+        window.closeVideo();
+    }
 };
 
 window.prevEpisode = () => {
@@ -992,7 +997,6 @@ window.prevEpisode = () => {
         currentSeason--;
         currentEpisode = currentSeries.temporadas[currentSeason].episodios.length - 1;
     }
-    renderEpisodes(currentSeason);
     window.openVideo(currentSeries.temporadas[currentSeason].episodios[currentEpisode]);
 };
 
@@ -1085,10 +1089,7 @@ function processCategoryData(data) {
 
 function renderAll(){
     const sections = [ 
-        // Esta fila toma los últimos 30 subidos al bucket sin importar la categoría
         { id: "recentRow", data: [...allVideos].slice(-30).reverse() }, 
-        
-        // Estas filas usan la nueva lógica de 15 fijos + resto random
         { id: "cineRow", data: processCategoryData(allVideos.filter(v => v.tipo === "cine")) },
         { id: "peliculasRow", data: processCategoryData(allVideos.filter(v => v.tipo === "pelicula")) }, 
         { id: "kidsRow", data: processCategoryData(allVideos.filter(v => v.tipo === "kids")) },
@@ -1254,6 +1255,7 @@ window.addEventListener('scroll', () => {
     else headerElem.classList.remove('scrolled');
 });
 
+// EXPOSICIÓN DE FUNCIONES GLOBALES
 window.closeVideo = closeVideo;
 window.togglePlay = togglePlay;
 window.nextEpisode = nextEpisode;
@@ -1267,12 +1269,8 @@ let nextBtnTimer;
 function showNextButton() {
     const nextBtn = document.getElementById('nextEpisodeBtnPlayer');
     if (!nextBtn) return;
-
-    // Solo funciona en Series y Anime
     if (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) {
         nextBtn.classList.add('visible');
-        
-        // Timer de 7 segundos para desvanecer
         clearTimeout(nextBtnTimer);
         nextBtnTimer = setTimeout(() => {
             nextBtn.classList.remove('visible');
@@ -1280,29 +1278,9 @@ function showNextButton() {
     }
 }
 
-window.nextEpisode = () => {
-    // Buscar siguiente capítulo
-    let nextEp = currentSeries.episodios.find(e => 
-        e.temporada === currentEpisode.temporada && e.episodio === (currentEpisode.episodio + 1)
-    );
-
-    if (nextEp) {
-        playEpisode(nextEp);
-    } else {
-        // Buscar primer capítulo de la siguiente temporada
-        let nextSeasonEp = currentSeries.episodios.find(e => 
-            e.temporada === (currentEpisode.temporada + 1) && e.episodio === 1
-        );
-        
-        if (nextSeasonEp) {
-            playEpisode(nextSeasonEp);
-        } else {
-            // Si no hay más, cerrar
-            closeVideo(); 
-        }
-    }
-    // PEGA ESTA LÍNEA AQUÍ:
+// Evento para mostrar botón al mover mouse/tocar en el player
 document.getElementById('player').addEventListener('mousemove', showNextButton);
+document.getElementById('player').addEventListener('touchstart', showNextButton);
 
 </script>
 </body>
