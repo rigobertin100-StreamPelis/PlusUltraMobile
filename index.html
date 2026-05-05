@@ -404,6 +404,16 @@ input {
     opacity: 1;
     pointer-events: auto;
 }
+        .player .close {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    z-index: 100006; /* Un nivel arriba del video */
+}
+        /* Esto asegura que el botón por ID también responda a la opacidad */
+#nextEpisodeBtnPlayer {
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+}
     </style>
 </head>
 
@@ -667,60 +677,74 @@ const playerController = {
         }
     },
 
-    init() {
-        this.video = document.getElementById("video");
-        this.video.ontimeupdate = () => {
-            if (this.currentId && this.video.currentTime > 5) {
-                const data = getProgress();
-                data[this.currentId] = { 
-                    time: this.video.currentTime, 
-                    duration: this.video.duration, 
-                    updated: Date.now(), 
-                    season: (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) ? currentSeason : null, 
-                    episode: (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) ? currentEpisode : null 
-                };
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+init() {
+    this.video = document.getElementById("video");
+    
+    // 1. Lógica de progreso (Se mantiene igual)
+    this.video.ontimeupdate = () => {
+        if (this.currentId && this.video.currentTime > 5) {
+            const data = getProgress();
+            data[this.currentId] = {
+                time: this.video.currentTime,
+                duration: this.video.duration,
+                updated: Date.now(),
+                season: (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) ? currentSeason : null,
+                episode: (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) ? currentEpisode : null
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
-                if (Math.abs(this.video.currentTime - this.lastSyncTime) > 60) {
-                    this.syncToFirebase();
-                }
+            if (Math.abs(this.video.currentTime - this.lastSyncTime) > 60) {
+                this.syncToFirebase();
             }
-        };
+        }
+    };
 
-        this.video.onended = () => (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) ? window.nextEpisode() : window.closeVideo();
+    this.video.onended = () => (currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime")) ? window.nextEpisode() : window.closeVideo();
+
+    // 2. CORRECCIÓN DE CONTROLES (Cambiamos playerNav por elementos reales)[cite: 1, 2]
+    const closeBtn = document.querySelector(".player .close");
+    const nextBtn = document.getElementById("nextEpisodeBtnPlayer");
+
+    const resetTimer = () => {
+        if (document.getElementById("player").style.display !== "flex") return;
         
-        const nav = document.getElementById("playerNav");
-        const resetTimer = () => {
-            if (document.getElementById("player").style.display !== "flex") return;
-            nav.style.opacity = "1";
-            clearTimeout(this.idleTimer);
-            this.idleTimer = setTimeout(() => { 
-                if(!document.activeElement.closest('.player-nav')) nav.style.opacity = "0";
-            }, 5000);
-        };
-        window.addEventListener("mousemove", resetTimer);
-        window.addEventListener("keydown", resetTimer);
-// Gesto de doble toque para celulares
-        this.video.addEventListener("touchstart", (e) => {
-            const now = Date.now();
-            const delta = now - this.lastTouchTime;
-            
-            if (delta > 0 && delta < 300) {
-                const touchX = e.touches[0].clientX;
-                const width = window.innerWidth;
-                
-                if (touchX > width / 2) {
-                    this.video.currentTime += 10;
-                    showToast("+10s");
-                } else {
-                    this.video.currentTime -= 10;
-                    showToast("-10s");
-                }
-                e.preventDefault(); 
+        // Mostramos el botón de cerrar y el de siguiente (si corresponde)
+        if (closeBtn) closeBtn.style.opacity = "1";
+        if (nextBtn && nextBtn.style.display !== "none") nextBtn.style.opacity = "1";
+
+        clearTimeout(this.idleTimer);
+        this.idleTimer = setTimeout(() => {
+            // Los ocultamos tras 5 segundos de inactividad
+            if (closeBtn) closeBtn.style.opacity = "0";
+            if (nextBtn) nextBtn.style.opacity = "0";
+        }, 5000);
+    };
+
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("keydown", resetTimer);
+
+    // 3. Gesto de doble toque (Se mantiene igual)
+    this.video.addEventListener("touchstart", (e) => {
+        const now = Date.now();
+        const delta = now - this.lastTouchTime;
+
+        if (delta > 0 && delta < 300) {
+            const touchX = e.touches[0].clientX;
+            const width = window.innerWidth;
+
+            if (touchX > width / 2) {
+                this.video.currentTime += 10;
+                showToast("+10s");
+            } else {
+                this.video.currentTime -= 10;
+                showToast("-10s");
             }
-            this.lastTouchTime = now;
-        });
-    },
+            e.preventDefault();
+        }
+        this.lastTouchTime = now;
+        resetTimer(); // También reinicia el timer al tocar
+    });
+},
 
     async play(v) {
         this.cleanup();
@@ -757,41 +781,35 @@ const playerController = {
 };
 
 window.openVideo = async (v) => {
-    const playerNav = document.getElementById("playerNav");
     const videoElement = document.getElementById("video");
-    const customOverlay = document.getElementById("playerCustomControls");
+    const playerDiv = document.getElementById("player");
+    const nextBtn = document.getElementById("nextEpisodeBtnPlayer");
 
+    // Ocultar el modal de la serie y mostrar el contenedor del reproductor
     document.getElementById("seriesModal").style.display = "none";
-    document.getElementById("player").style.display = "flex";
+    playerDiv.style.display = "flex";
 
-    // Detectamos si es Serie o Anime
+    // Detectamos si es Serie o Anime para la lógica de los botones de navegación
     const isMultiEpisode = currentSeries && (currentSeries.tipo === "serie" || currentSeries.tipo === "anime");
+    
+    // Configuración de controles: En móvil y escritorio activamos los nativos por ahora
+    videoElement.controls = true; 
 
-    // LÓGICA DE VISIBILIDAD DE CONTROLES[cite: 1, 2]
-    if (window.innerWidth <= 600) {
-        // En celulares (Mobile): Usamos controles nativos, ocultamos los personalizados
-        playerNav.style.display = "none";
-        videoElement.controls = true; 
-        customOverlay.style.display = "none";
-    } else {
-        // En pantallas grandes (TV/PC):
-        if (isMultiEpisode) {
-            // Si es serie, mostramos la barra personalizada para cambiar episodios[cite: 1]
-            playerNav.style.display = "flex";
-            videoElement.controls = true;
-            customOverlay.style.display = "none";
-        } else {
-            // Si es película, ocultamos los botones de navegación (Cine/Películas)[cite: 1]
-            playerNav.style.display = "none";
-            videoElement.controls = true;
-            customOverlay.style.display = "none";
-        }
+    // Lógica de visibilidad del botón "Siguiente Episodio"
+    // Solo se muestra si es una serie o anime
+    if (isMultiEpisode && nextBtn) {
+        nextBtn.style.display = "flex";
+    } else if (nextBtn) {
+        nextBtn.style.display = "none";
     }
 
+    // Lógica para obtener la URL del video desde Cloudflare R2
     let finalUrl = v.url;
     if (v.fileKey) {
         const cache = getSignedCache();
         const cachedItem = cache[v.fileKey];
+        
+        // Verificar si la URL cacheada sigue siendo válida (menos de 45 min)
         if (cachedItem && (Date.now() - cachedItem.timestamp < 45 * 60 * 1000)) {
             finalUrl = cachedItem.url;
         } else {
@@ -802,12 +820,14 @@ window.openVideo = async (v) => {
                     finalUrl = data.url;
                     setSignedCache(v.fileKey, finalUrl);
                 }
-            } catch (err) { console.error(err); }
+            } catch (err) { 
+                console.error("Error obteniendo link firmado:", err); 
+            }
         }
     }
 
+    // Iniciar la reproducción con el controlador
     playerController.play({...v, url: finalUrl}); 
-
 };
 
 window.togglePlay = () => {
