@@ -112,22 +112,23 @@ input {
         .header {
             position: fixed; top: 0; left: 0; width: 100%; 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 8px 20px; z-index: 1000;
+            padding: 4px 15px; z-index: 1000;
             background: rgba(18, 18, 18, 0.6); 
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%); 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: background 0.4s ease, padding 0.4s ease;
             box-sizing: border-box;
-            padding-top: calc(14px + env(safe-area-inset-top));
+            padding-top: calc(5px + env(safe-area-inset-top)) !important;
         }
 
 .header .logo {
-    color: #007aff !important; /* Fuerza el azul vibrante */
+    color: #007aff !important;
     font-weight: 900;
-    text-shadow: 0 0 20px rgba(0, 122, 255, 0.6); /* El resplandor que viste en la imagen */
+    text-shadow: 0 0 20px rgba(0, 122, 255, 0.6);
     filter: drop-shadow(0 0 5px rgba(0, 122, 255, 0.3));
-    text-transform: uppercase; /* Opcional, para darle más fuerza */
+    text-transform: uppercase;
+    font-size: 16px !important; /* <--- Agrega esta línea aquí */
 }
 
         .header.scrolled {
@@ -136,8 +137,8 @@ input {
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
         }
         
-        .search, .btn-catalog{padding:10px 18px;border-radius:24px;border:none;font-size:16px;background:rgba(255,255,255,.1);color:rgba(255,255,255,0.7);outline:none;transition:0.3s;}
-        .search{width:200px; color:white;}
+        .search, .btn-catalog{padding: 5px 12px;border-radius:24px;border:none;font-size: 13px;;background:rgba(255,255,255,.1);color:rgba(255,255,255,0.7);outline:none;transition:0.3s;}
+        .search{width: 160px; color:white;}
         .btn-catalog{cursor:pointer; display:flex; align-items:center; gap:8px; text-decoration:none;}
         .btn-catalog:hover{background:rgba(255,255,255,.2); color:white;}
 
