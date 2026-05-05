@@ -374,7 +374,7 @@ input {
         /* Botón Siguiente Episodio Estilo iOS */
 .next-ep-player-btn {
     position: absolute;
-    bottom: 30px;
+    bottom: 100px;
     right: 30px;
     padding: 10px 20px;
     background: rgba(255, 255, 255, 0.1);
@@ -389,7 +389,7 @@ input {
     display: flex;
     align-items: center;
     gap: 8px;
-    z-index: 100;
+    z-index: 9999;
     transition: opacity 0.5s ease, transform 0.2s ease;
     opacity: 0; /* Empieza oculto */
     pointer-events: none;
@@ -450,19 +450,7 @@ input {
         <!-- El botón ahora es independiente de la barra de navegación -->
         <span class="close" onclick="window.closeVideo()" tabindex="0" style="z-index: 10005; position: absolute; top: 20px; right: 25px;">✕</span>
         
-        <div class="player-nav" id="playerNav">
-            <button id="btnPlayPause" onclick="window.togglePlay()" tabindex="0">⏯</button>
-            <button id="btnPrev" onclick="window.prevEpisode()" tabindex="0">⏮</button>
-            <button id="btnRew" onclick="document.getElementById('video').currentTime -= 10" tabindex="0">-10s</button>
-            <button id="btnFwd" onclick="document.getElementById('video').currentTime += 10" tabindex="0">+10s</button>
-            <button id="btnNext" onclick="window.nextEpisode()" tabindex="0">⏭</button>
-            <button id="btnFull" onclick="window.toggleFullScreen()" tabindex="0">⛶ Fullscreen</button>
-        </div>
-        <video id="video" playsinline></video>
-        <div id="playerCustomControls" class="custom-controls-overlay">
-            <button id="prevEpisodeBtn" class="nav-ep-btn left" onclick="window.prevEpisode()">❮ Anterior</button>
-            <button id="nextEpisodeBtn" class="nav-ep-btn right" onclick="window.nextEpisode()">Siguiente ❯</button>
-        </div>
+        <video id="video" playsinline controls></video>
         <div id="nextEpisodeBtnPlayer" class="next-ep-player-btn" onclick="nextEpisode()">
             Next Episode <span style="font-size: 18px; margin-left: 5px;">›</span>
         </div>
