@@ -86,13 +86,15 @@ input {
     backdrop-filter: blur(5px);
 }
 @media (min-width: 601px) {
-    .header .logo { font-size: 36px; }
+    .close {
+        display: flex; /* Se muestra en pantallas grandes */
+    }
 }
 
-/* Para Celulares (Un poco más compacto) */
 @media (max-width: 600px) {
-    .header .logo { font-size: 28px; }
-    body { padding-top: 85px; }
+    .close {
+        display: none; /* Se oculta en celulares para usar el player nativo */
+    }
 }
 
         /* BASE & LAYOUT */
@@ -102,7 +104,7 @@ input {
             letter-spacing: -0.022em; 
             background: #000000; 
             color: white; 
-            padding-top: 100px; 
+            padding-top: 90px; 
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -110,7 +112,7 @@ input {
         .header {
             position: fixed; top: 0; left: 0; width: 100%; 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 20px 28px; z-index: 1000;
+            padding: 14px 28px; z-index: 1000;
             background: rgba(18, 18, 18, 0.6); 
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%); 
@@ -120,13 +122,11 @@ input {
         }
 
 .header .logo {
-    color: #007aff !important; 
+    color: #007aff !important; /* Fuerza el azul vibrante */
     font-weight: 900;
-    font-size: 36px; 
-    text-shadow: 0 0 25px rgba(0, 122, 255, 0.6); 
-    filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.3));
-    text-transform: uppercase;
-    letter-spacing: -1px;
+    text-shadow: 0 0 20px rgba(0, 122, 255, 0.6); /* El resplandor que viste en la imagen */
+    filter: drop-shadow(0 0 5px rgba(0, 122, 255, 0.3));
+    text-transform: uppercase; /* Opcional, para darle más fuerza */
 }
 
         .header.scrolled {
