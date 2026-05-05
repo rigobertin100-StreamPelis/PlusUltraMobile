@@ -414,6 +414,16 @@ input {
     transition: opacity 0.3s ease;
     pointer-events: auto;
 }
+        /* Forzar visibilidad en modo pantalla completa */
+#player:fullscreen .player-inner .next-ep-player-btn,
+#player:-webkit-full-screen .player-inner .next-ep-player-btn,
+#player:fullscreen .close,
+#player:-webkit-full-screen .close {
+    z-index: 2147483647 !important;
+    display: flex !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
     </style>
 </head>
 
@@ -631,16 +641,24 @@ window.addEventListener('keydown', (e) => {
 
 
 window.toggleFullScreen = () => {
-    // Apuntamos al DIV contenedor, no a la etiqueta video
-    const playerContainer = document.getElementById("player"); 
-    
+    const playerContainer = document.getElementById("player");
+    const videoElement = document.getElementById("video"); // Asegúrate de tener esta línea
+
     if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        // ENTRANDO A FULLSCREEN
         if (playerContainer.requestFullscreen) {
             playerContainer.requestFullscreen();
         } else if (playerContainer.webkitRequestFullscreen) {
             playerContainer.webkitRequestFullscreen();
         }
+        
+        // ESTA LÍNEA ES CLAVE: Fuerza al video a no usar sus controles nativos de sistema 
+        // que a veces tapan todo en Android
+        videoElement.setAttribute("webkit-playsinline", "true");
+        videoElement.setAttribute("playsinline", "true");
+
     } else {
+        // SALIENDO DE FULLSCREEN
         if (document.exitFullscreen) {
             document.exitFullscreen();
         } else if (document.webkitExitFullscreen) {
