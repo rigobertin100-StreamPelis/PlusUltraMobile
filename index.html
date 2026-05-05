@@ -86,15 +86,13 @@ input {
     backdrop-filter: blur(5px);
 }
 @media (min-width: 601px) {
-    .close {
-        display: flex; /* Se muestra en pantallas grandes */
-    }
+    .header .logo { font-size: 36px; }
 }
 
+/* Para Celulares (Un poco más compacto) */
 @media (max-width: 600px) {
-    .close {
-        display: none; /* Se oculta en celulares para usar el player nativo */
-    }
+    .header .logo { font-size: 28px; }
+    body { padding-top: 85px; }
 }
 
         /* BASE & LAYOUT */
@@ -104,7 +102,7 @@ input {
             letter-spacing: -0.022em; 
             background: #000000; 
             color: white; 
-            padding-top: 140px; 
+            padding-top: 100px; 
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -124,11 +122,11 @@ input {
 .header .logo {
     color: #007aff !important; 
     font-weight: 900;
-    font-size: 72px; 
-    text-shadow: 0 0 45px rgba(0, 122, 255, 0.7); 
-    filter: drop-shadow(0 0 15px rgba(0, 122, 255, 0.4));
+    font-size: 36px; 
+    text-shadow: 0 0 25px rgba(0, 122, 255, 0.6); 
+    filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.3));
     text-transform: uppercase;
-    letter-spacing: -1.5px;
+    letter-spacing: -1px;
 }
 
         .header.scrolled {
