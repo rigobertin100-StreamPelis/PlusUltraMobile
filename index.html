@@ -196,18 +196,21 @@ input {
     /* 1. Forzamos el tamaño de las cartas para que quepan 3 */
     .card {
         width: 115px !important; 
+        aspect-ratio: 2/3 !important;
         border-radius: 12px !important;
     }
 
-    /* 2. Ajuste de títulos: intenta con todos estos selectores */
-    .row-title, 
-    .category-title, 
-    section h2, 
-    .container h2 {
-        font-size: 16px !important; /* Valor fijo en px para asegurar el cambio */
-        margin-left: 12px !important;
-        margin-bottom: 8px !important;
-        letter-spacing: 0.5px !important;
+    /* 2. CORRECCIÓN DE TÍTULOS: Usamos el selector que ya tienes en el HTML */
+    .row h2 {
+        font-size: 16px !important; /* Bajamos de 22px a 16px */
+        margin-bottom: 10px !important;
+        padding-left: 5px; /* Ajuste opcional para móviles */
+    }
+
+    /* Ajuste para el contenedor de la fila en móvil */
+    .row {
+        margin-top: 25px !important; /* Menos espacio entre filas */
+        padding-left: 15px !important;
     }
 }
 
