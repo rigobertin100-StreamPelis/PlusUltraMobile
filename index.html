@@ -92,36 +92,26 @@ input {
 }
 
 @media (max-width: 600px) {
-    .close { display: none; } /* Oculta la X en el móvil */
+    .close { display: none; } 
     
-    .header .logo { font-size: 28px; } /* <--- ESTO ES LO QUE TE FALTA AQUÍ */
+    /* Agregamos !important para forzar el tamaño en el cel */
+    .header .logo { 
+        font-size: 26px !important; 
+    } 
 
     .btn-catalog span { display: none; }
-    .search { width: 120px; }
+    .search { width: 110px; }
     
-    /* Reducimos los títulos de las secciones */
-    .row h2 {
-        font-size: 18px; 
-        margin-bottom: 10px;
-    }
+    .row h2 { font-size: 18px; margin-bottom: 10px; }
 
-    /* Hacemos las cards más pequeñas */
     .card {
-        width: 30vw; 
+        width: 31vw; /* Ajustado para que quepan 3 cards bien */
         border-radius: 12px;
     }
 
-    .modal-info-content {
-        flex-direction: column; 
-        padding: 20px;
-    }
-    
-    .info-right {
-        align-items: flex-end; 
-        justify-content: flex-end;
-    }
+    .modal-info-content { flex-direction: column; padding: 20px; }
+    .info-right { align-items: flex-end; justify-content: flex-end; }
 }
-
         /* BASE & LAYOUT */
 body {
     margin: 0; 
@@ -149,25 +139,18 @@ body {
 .header .logo {
     color: #007aff !important; 
     font-weight: 900;
-    font-size: 36px; /* Tamaño base */
+    font-size: 36px; 
     text-shadow: 0 0 25px rgba(0, 122, 255, 0.6); 
     filter: drop-shadow(0 0 8px rgba(0, 122, 255, 0.3));
     text-transform: uppercase;
     letter-spacing: -1px;
-}
+} /* <-- Una llave cierra el logo y ya pasamos directo a .header.scrolled */
 
-/* Ajuste específico para que el logo no sea gigante en el cel */
-@media (max-width: 600px) {
-    .header .logo {
-        font-size: 28px; 
-    }
+.header.scrolled {
+    background: rgba(10, 10, 10, 0.95);
+    padding: 10px 28px; 
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
 }
-
-        .header.scrolled {
-            background: rgba(10, 10, 10, 0.95);
-            padding: 10px 28px; 
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
-        }
         
         .search, .btn-catalog{padding:10px 18px;border-radius:24px;border:none;font-size:16px;background:rgba(255,255,255,.1);color:rgba(255,255,255,0.7);outline:none;transition:0.3s;}
         .search{width:200px; color:white;}
