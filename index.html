@@ -7,7 +7,7 @@
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
+    <link rel="manifest" href="./manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script src="https://www.gstatic.com/cv/js/cast_sender.js"></script>
     
@@ -119,6 +119,8 @@ input {
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             transition: background 0.4s ease, padding 0.4s ease;
             box-sizing: border-box;
+            padding-top: calc(14px + env(safe-area-inset-top));
+}
         }
 
 .header .logo {
@@ -396,7 +398,14 @@ input {
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker registrado', reg))
+            .catch(err => console.error('Error al registrar Service Worker', err));
+    });
+}
+    
 const firebaseConfig = {
     apiKey: "AIzaSyAt1E2XmlsxV52dAwRaXW_e4XdDQxiP8lg",
     authDomain: "midata-40f73.firebaseapp.com",
