@@ -92,6 +92,10 @@ input {
 }
 
 @media (max-width: 600px) {
+    .close { display: none; } /* Oculta la X en el móvil */
+    
+    .header .logo { font-size: 28px; } /* <--- ESTO ES LO QUE TE FALTA AQUÍ */
+
     .btn-catalog span { display: none; }
     .search { width: 120px; }
     
@@ -101,10 +105,10 @@ input {
         margin-bottom: 10px;
     }
 
-    /* Hacemos las cards más pequeñas para que quepan mejor */
+    /* Hacemos las cards más pequeñas */
     .card {
-        width: 30vw; /* Ajusta el ancho al 30% de la pantalla del cel */
-        border-radius: 12px; /* Bordes más finos para pantallas pequeñas */
+        width: 30vw; 
+        border-radius: 12px;
     }
 
     .modal-info-content {
