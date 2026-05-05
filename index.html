@@ -501,7 +501,17 @@ input {
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDocs, collection, deleteDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Función para obtener o crear un ID único para este navegador
+function getDeviceId() {
+    let id = localStorage.getItem("plusultra_device_id");
+    if (!id) {
+        id = crypto.randomUUID();
+        localStorage.setItem("plusultra_device_id", id);
+    }
+    return id;
+}
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
@@ -555,45 +565,71 @@ async function checkInitialState() {
     // 1. Forzamos la experiencia móvil automáticamente
     localStorage.setItem("user_experience", "mobile");
 
-    // 2. Procedemos con la lógica de Firebase
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            document.getElementById("loginModal").style.display = "none";
-            playerController.init();
-            initGlobalEvents();
-
-            // --- NUEVA LÓGICA DE CATÁLOGO INTELIGENTE ---
-            const cachedData = localStorage.getItem('plusultra_catalog_cache');
-            const localVersion = localStorage.getItem('plusultra_version');
-
-            // Carga rápida desde caché local para no esperar
-            if (cachedData) {
-                allVideos = JSON.parse(cachedData);
-                buildUI();
-            }
-
+            // --- INICIO LÓGICA DE CONTROL DE DISPOSITIVOS ---
+            const deviceId = getDeviceId();
+            const sessionsRef = collection(db, "users", user.uid, "active_sessions");
+            
             try {
-                // Paso 1: Preguntamos al Worker si hay una versión nueva
-                const res = await fetch(WORKER_URL + "?checkVersion=true");
-                const { version } = await res.json();
+                // Obtener sesiones actuales
+                const snapshot = await getDocs(sessionsRef);
+                let sessions = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                // Verificar si este dispositivo ya está registrado
+                const isCurrentDeviceActive = sessions.some(s => s.id === deviceId);
 
-                // Paso 2: Si la versión es distinta o no hay caché, descargamos todo
-                if (version !== localVersion || !cachedData) {
-                    console.log("Actualizando catálogo a versión: " + version);
-                    const r = await fetch(WORKER_URL + "?t=" + Date.now()); 
-                    const data = await r.json();
+                if (!isCurrentDeviceActive) {
+                    // Si ya hay 2 dispositivos diferentes registrados
+                    if (sessions.length >= 2) {
+                        alert("Límite de 2 dispositivos alcanzado. Cierra sesión en otro equipo.");
+                        await signOut(auth);
+                        return; // Bloqueamos el acceso aquí
+                    }
                     
-                    allVideos = data;
-                    localStorage.setItem('plusultra_catalog_cache', JSON.stringify(data));
-                    localStorage.setItem('plusultra_version', version);
-                    
-                    buildUI(); // Refrescamos la pantalla con lo nuevo
+                    // Si hay espacio, registramos este nuevo dispositivo
+                    await setDoc(doc(sessionsRef, deviceId), {
+                        lastLogin: Date.now(),
+                        deviceName: navigator.userAgent.substring(0, 20)
+                    });
                 }
-            } catch (e) {
-                console.error("Error verificando catálogo:", e);
-            }
-            // --------------------------------------------
+                // --- FIN LÓGICA DE CONTROL DE DISPOSITIVOS ---
 
+                // Si el código llega aquí, el acceso es permitido
+                document.getElementById("loginModal").style.display = "none";
+                playerController.init();
+                initGlobalEvents();
+
+                // --- TU LÓGICA DE CATÁLOGO INTELIGENTE (Mantenida) ---
+                const cachedData = localStorage.getItem('plusultra_catalog_cache');
+                const localVersion = localStorage.getItem('plusultra_version');
+
+                if (cachedData) {
+                    allVideos = JSON.parse(cachedData);
+                    buildUI();
+                }
+
+                try {
+                    const res = await fetch(WORKER_URL + "?checkVersion=true");
+                    const { version } = await res.json();
+
+                    if (version !== localVersion || !cachedData) {
+                        console.log("Actualizando catálogo a versión: " + version);
+                        const r = await fetch(WORKER_URL + "?t=" + Date.now()); 
+                        const data = await r.json();
+                        
+                        allVideos = data;
+                        localStorage.setItem('plusultra_catalog_cache', JSON.stringify(data));
+                        localStorage.setItem('plusultra_version', version);
+                        buildUI();
+                    }
+                } catch (e) {
+                    console.error("Error verificando catálogo:", e);
+                }
+
+            } catch (e) {
+                console.error("Error en el proceso de validación:", e);
+            }
         } else {
             document.getElementById("loginModal").style.display = "flex";
         }
@@ -1308,7 +1344,19 @@ document.getElementById("loginBtn").onclick = async () => {
     } 
 };
 
-window.logout = () => { localStorage.removeItem("user_experience"); signOut(auth); };
+window.logout = async () => {
+    if (auth.currentUser) {
+        const deviceId = getDeviceId();
+        try {
+            const sessionsRef = collection(db, "users", auth.currentUser.uid, "active_sessions");
+            await deleteDoc(doc(sessionsRef, deviceId));
+        } catch(e) { 
+            console.log("Error al quitar sesión:", e); 
+        }
+    }
+    localStorage.removeItem("user_experience"); 
+    signOut(auth); 
+};
 
 const headerElem = document.querySelector('.header');
 window.addEventListener('scroll', () => {
@@ -1319,7 +1367,7 @@ window.addEventListener('scroll', () => {
 // EXPOSICIÓN DE FUNCIONES GLOBALES
 window.closeVideo = closeVideo;
 window.togglePlay = togglePlay;
-window.nextEpisode = nextEpisode;
+window.nextEpisode = nextEpisode;S
 window.prevEpisode = prevEpisode;
 window.toggleFullScreen = toggleFullScreen;
 window.openVideo = openVideo;
