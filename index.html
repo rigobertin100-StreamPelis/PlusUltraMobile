@@ -112,7 +112,7 @@ input {
         .header {
             position: fixed; top: 0; left: 0; width: 100%; 
             display: flex; align-items: center; justify-content: space-between; 
-            padding: 14px 28px; z-index: 1000;
+            padding: 8px 20px; z-index: 1000;
             background: rgba(18, 18, 18, 0.6); 
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%); 
@@ -153,7 +153,7 @@ input {
     background-size: cover;
     background-position: center;
     overflow: hidden; 
-    margin-top: -90px; 
+    margin-top: -60px; 
     display: none;
 }
         .hero-video-bg {position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; transform: translate(-50%, -50%); pointer-events: none;}
@@ -214,7 +214,7 @@ input {
     }
 
     #heroTitle {
-        font-size: 32px !important; /* El doble que tus ROW (16px * 2) */
+        font-size: 28px !important; /* 16px * 1.75 = 28px */
         max-width: 90% !important; /* Que ocupe casi todo el ancho */
         line-height: 1.1;
     }
@@ -227,7 +227,9 @@ input {
     }
 
     .hero-overlay {
-        padding: 0 20px !important; /* Menos margen lateral para ganar espacio */
+        padding: 0 20px 20px 20px !important;
+        justify-content: flex-end !important; /* Empuja el texto hacia abajo */
+        background: linear-gradient(to top, #000 15%, transparent 60%) !important; /* Sombra solo abajo para leer bien */
     }
 
     .hero-btn {
