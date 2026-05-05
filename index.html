@@ -555,27 +555,45 @@ async function checkInitialState() {
     // 1. Forzamos la experiencia móvil automáticamente
     localStorage.setItem("user_experience", "mobile");
 
-    // 2. Procedemos directamente con la lógica de Firebase
+    // 2. Procedemos con la lógica de Firebase
     onAuthStateChanged(auth, async (user) => {
         if (user) {
             document.getElementById("loginModal").style.display = "none";
             playerController.init();
             initGlobalEvents();
 
+            // --- NUEVA LÓGICA DE CATÁLOGO INTELIGENTE ---
             const cachedData = localStorage.getItem('plusultra_catalog_cache');
-            if (cachedData) { 
-                allVideos = JSON.parse(cachedData); 
-                buildUI(); 
+            const localVersion = localStorage.getItem('plusultra_version');
+
+            // Carga rápida desde caché local para no esperar
+            if (cachedData) {
+                allVideos = JSON.parse(cachedData);
+                buildUI();
             }
-            try { 
-                const r = await fetch(WORKER_URL); 
-                const data = await r.json(); 
-                allVideos = data; 
-                localStorage.setItem('plusultra_catalog_cache', JSON.stringify(data)); 
-                buildUI(); 
+
+            try {
+                // Paso 1: Preguntamos al Worker si hay una versión nueva
+                const res = await fetch(WORKER_URL + "?checkVersion=true");
+                const { version } = await res.json();
+
+                // Paso 2: Si la versión es distinta o no hay caché, descargamos todo
+                if (version !== localVersion || !cachedData) {
+                    console.log("Actualizando catálogo a versión: " + version);
+                    const r = await fetch(WORKER_URL + "?t=" + Date.now()); 
+                    const data = await r.json();
+                    
+                    allVideos = data;
+                    localStorage.setItem('plusultra_catalog_cache', JSON.stringify(data));
+                    localStorage.setItem('plusultra_version', version);
+                    
+                    buildUI(); // Refrescamos la pantalla con lo nuevo
+                }
             } catch (e) {
-                console.error("Error cargando catálogo:", e);
+                console.error("Error verificando catálogo:", e);
             }
+            // --------------------------------------------
+
         } else {
             document.getElementById("loginModal").style.display = "flex";
         }
