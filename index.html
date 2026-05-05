@@ -193,17 +193,21 @@ input {
 
 /* NUEVO: Ajuste específico para Celulares */
 @media (max-width: 768px) {
+    /* 1. Forzamos el tamaño de las cartas para que quepan 3 */
     .card {
-        /* Bajamos a 115px para que quepan 3 tarjetas */
-        width: 115px; 
-        border-radius: 12px; /* Un radio más pequeño acorde al tamaño */
+        width: 115px !important; 
+        border-radius: 12px !important;
     }
 
-    /* Achicamos los títulos de las categorías */
-    .row-title {
-        font-size: 0.95rem; /* Tamaño más discreto */
-        margin-left: 10px;  /* Menos margen lateral para ganar espacio */
-        margin-bottom: 8px;
+    /* 2. Ajuste de títulos: intenta con todos estos selectores */
+    .row-title, 
+    .category-title, 
+    section h2, 
+    .container h2 {
+        font-size: 16px !important; /* Valor fijo en px para asegurar el cambio */
+        margin-left: 12px !important;
+        margin-bottom: 8px !important;
+        letter-spacing: 0.5px !important;
     }
 }
 
