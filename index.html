@@ -194,9 +194,16 @@ input {
 /* NUEVO: Ajuste específico para Celulares */
 @media (max-width: 768px) {
     .card {
-        /* Con 160px suelen caber 2 completas y se asoma la tercera */
-        width: 160px; 
-        border-radius: 15px; /* Un radio un poco menor se ve mejor en pantallas chicas */
+        /* Bajamos a 115px para que quepan 3 tarjetas */
+        width: 115px; 
+        border-radius: 12px; /* Un radio más pequeño acorde al tamaño */
+    }
+
+    /* Achicamos los títulos de las categorías */
+    .row-title {
+        font-size: 0.95rem; /* Tamaño más discreto */
+        margin-left: 10px;  /* Menos margen lateral para ganar espacio */
+        margin-bottom: 8px;
     }
 }
 
