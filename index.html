@@ -18,7 +18,7 @@
       if (isAvailable && window.cast && window.chrome) {
         window.castAvailable = true;
         const btn = document.getElementById("castBtn");
-        if (btn) btn.style.display = "inline-block";S
+        if (btn) btn.style.display = "inline-block";
       }
     };
 
@@ -174,21 +174,20 @@ input {
         .carousel::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:10px;}
         
 .card {
-    /* Mantenemos tus estilos base */
     flex-shrink: 0;
     aspect-ratio: 2/3;
     position: relative;
     border-radius: 20px;
-    overflow: hidden;
+    overflow: hidden; /* Esto mantiene la imagen dentro de la card */
     cursor: pointer;
     background: #2c2c2e;
     scroll-snap-align: start;
-    
-    /* MODIFICACIÓN: Ancho por defecto para pantallas grandes */
     width: 220px; 
     
-    /* Tus animaciones se quedan igual */
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, opacity 0.6s;
+    /* Añadimos margen para que al crecer no se corte con la de al lado */
+    margin: 15px 10px; 
+    
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
     animation: fadeUp 0.6s ease forwards;
 }
 
@@ -213,6 +212,18 @@ input {
         margin-top: 25px !important; /* Menos espacio entre filas */
         padding-left: 15px !important;
     }
+    .carousel {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+    overflow-y: visible !important;
+    display: flex !important;
+}
+    :focus {
+    outline: 5px solid #FFD700 !important;
+    outline-offset: 4px;
+    transform: scale(1.1) !important;
+    z-index: 9999 !important;
+}
 
     #heroTitle {
         font-size: 17px !important; /* 16px * 1.75 = 28px */
@@ -425,6 +436,85 @@ input {
     opacity: 1 !important;
     pointer-events: auto !important;
 }
+        /* --- ESTILOS DE ENFOQUE PARA SMART TV --- */
+
+/* 1. Definimos el estado 'focus' para cualquier elemento interactivo */
+:focus {
+    outline: 5px solid #FFD700 !important; /* Amarillo Oro */
+    outline-offset: 4px;
+    transform: scale(1.1) !important;
+    z-index: 999; /* Para que la card seleccionada flote sobre las demás */
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.7);
+}
+
+/* 2. Efecto de agrandado para las tarjetas y botones al estar seleccionados */
+.card:focus, 
+.hero-btn:focus, 
+.btn-play-now:focus, 
+.season-option:focus,
+.logout:focus,
+#search:focus {
+    transform: scale(1.1) !important; /* Se hace un 10% más grande */
+    z-index: 100; /* Asegura que la tarjeta crezca por encima de las demás */
+    box-shadow: 0 0 25px rgba(10, 132, 255, 0.6); /* Resplandor azul */
+}
+
+/* 3. Ajuste para que el texto dentro de los botones enfocados se vea claro */
+.season-option:focus {
+    background-color: #0a84ff !important;
+    color: white !important;
+}
+
+/* 4. Evitamos que el borde aparezca en clics de mouse (opcional, solo para TV) */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+.carousel {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: visible !important; /* Crucial para que el selector no se corte */
+    
+    /* Este padding es el que arregla el corte arriba y abajo */
+    padding: 30px 15px; 
+    
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    
+    /* Eliminamos márgenes que puedan estorbar */
+    margin-top: -15px;
+    margin-bottom: -15px;
+}
+        .player .controls button, 
+.player .close, 
+#modalPlayBtn {
+    min-width: 60px;
+    min-height: 60px;
+    font-size: 1.5rem; /* Iconos más grandes */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#modalPlayBtn {
+    padding: 15px 30px;
+    font-size: 1.8rem;
+}
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding-right: 10px;
+}
+
+.clear-btn:focus {
+    outline: 4px solid #FFD700 !important; /* Selector Amarillo */
+    background: #FFD700;
+    color: black;
+    transform: scale(1.1);
+}
     </style>
 </head>
 
@@ -442,9 +532,13 @@ input {
 
 <div class="header">
     <div class="logo">PLUS ULTRA</div>
-    <div class="header-right">
-        <input id="search" class="search" placeholder="Buscar..." tabindex="0">
-        <button class="logout" onclick="logout()" tabindex="0">Salir</button>
+<div class="header-right">
+    <div class="search-wrapper" style="display: flex; align-items: center; background: rgba(255,255,255,0.1); border-radius: 8px; padding-right: 5px;">
+        <input id="searchInput" class="search" placeholder="Buscar..." tabindex="0" style="background: transparent; border: none; outline: none;">
+        <button id="clearSearch" class="clear-btn" tabindex="0" style="background: #444; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; margin-left: 5px;">✕</button>
+    </div>
+    <button class="logout" onclick="logout()" tabindex="0">Salir</button>
+</div>
     </div>
 </div>
 
@@ -539,6 +633,80 @@ let currentSeries = null;
 let currentSeason = 0;
 let currentEpisode = 0;
 
+    // Manejador de navegación para Smart TV
+window.addEventListener('keydown', (e) => {
+    const focusable = document.querySelectorAll('button, input, .card, .season-option, .close');
+    const index = Array.from(focusable).indexOf(document.activeElement);
+
+    let nextIndex = 0;
+
+    switch(e.keyCode) {
+        case 37: // Izquierda
+            nextIndex = index > 0 ? index - 1 : 0;
+            focusable[nextIndex].focus();
+            break;
+        case 39: // Derecha
+            nextIndex = index < focusable.length - 1 ? index + 1 : index;
+            focusable[nextIndex].focus();
+            break;
+        case 38: // Arriba (Lógica simplificada para filas)
+            nextIndex = Math.max(0, index - 5); 
+            focusable[nextIndex].focus();
+            break;
+        case 40: // Abajo
+            nextIndex = Math.min(focusable.length - 1, index + 5);
+            focusable[nextIndex].focus();
+            break;
+        case 13: // OK / Enter
+            if(document.activeElement) document.activeElement.click();
+            break;
+        case 10009: // Botón "Atrás" en Tizen/WebOS
+        case 8:
+        case 27:
+        case 461:
+        case 10009:
+        case 166:
+            e.preventDefault(); // Evita que la app se cierre accidentalmente
+            
+            // Lógica para cerrar lo que esté abierto
+            if (document.getElementById("player").style.display === "flex") {
+                window.closeVideo();
+            } else if (document.getElementById("seriesModal").style.display === "flex") {
+                window.closeSeriesModal();
+            }
+            break;
+    }
+});
+    // Función auxiliar para saltar entre filas (carruseles)
+function moverFocoVertical(focusable, currentIndex, direccion) {
+    if (currentIndex === -1) {
+        focusable[0].focus();
+        return;
+    }
+    const rectActual = focusable[currentIndex].getBoundingClientRect();
+    let mejorCandidato = null;
+    let minDistancia = Infinity;
+
+    focusable.forEach((el, i) => {
+        if (i === currentIndex) return;
+        const rect = el.getBoundingClientRect();
+        
+        // Verificar si está arriba o abajo según la dirección
+        const esDireccionCorrecta = direccion > 0 ? rect.top > rectActual.bottom - 10 : rect.bottom < rectActual.top + 10;
+        
+        if (esDireccionCorrecta) {
+            // Calcular distancia euclidiana simple entre centros
+            const dist = Math.abs(rect.left - rectActual.left) + Math.abs(rect.top - rectActual.top);
+            if (dist < minDistancia) {
+                minDistancia = dist;
+                mejorCandidato = el;
+            }
+        }
+    });
+
+    if (mejorCandidato) mejorCandidato.focus();
+}
+
 const getSignedCache = () => JSON.parse(sessionStorage.getItem("plusultra_signed_links") || "{}");
 const setSignedCache = (key, url) => {
     const cache = getSignedCache();
@@ -563,8 +731,27 @@ const lazyLoader = new IntersectionObserver((entries, observer) => {
 
 
 async function checkInitialState() {
-    // 1. Forzamos la experiencia móvil automáticamente
-    localStorage.setItem("user_experience", "mobile");
+    // --- Detección de experiencia (TV vs Mobile) ---
+    const userAgent = navigator.userAgent.toLowerCase();
+    const isTV = userAgent.includes("smarttv") || 
+                 userAgent.includes("tizen") || 
+                 userAgent.includes("webos") || 
+                 window.innerWidth > 1200;
+
+    if (isTV) {
+        localStorage.setItem("user_experience", "tv");
+        console.log("Modo detectado: Smart TV");
+    } else {
+        // Solo ponemos mobile si NO es TV
+        localStorage.setItem("user_experience", "mobile");
+        console.log("Modo detectado: Celular");
+    }
+
+    // El foco inicial siempre es bueno, pero en TV es obligatorio
+    setTimeout(() => {
+        const searchInput = document.getElementById("search");
+        if (searchInput) searchInput.focus();
+    }, 2500);
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -582,11 +769,17 @@ async function checkInitialState() {
 
                 if (!isCurrentDeviceActive) {
                     // Si ya hay 2 dispositivos diferentes registrados
-                    if (sessions.length >= 2) {
-                        alert("Límite de 2 dispositivos alcanzado. Cierra sesión en otro equipo.");
-                        await signOut(auth);
-                        return; // Bloqueamos el acceso aquí
-                    }
+if (sessions.length >= 2) {
+    showToast("Límite de 2 dispositivos alcanzado. Cierra sesión en otro equipo.");
+    
+    // Esperamos 2 segundos para que alcancen a leer el mensaje antes de sacarlos
+    setTimeout(async () => {
+        await signOut(auth);
+        window.location.reload(); // Asegura que regrese al login
+    }, 2000);
+    
+    return; 
+}
                     
                     // Si hay espacio, registramos este nuevo dispositivo
                     await setDoc(doc(sessionsRef, deviceId), {
@@ -669,11 +862,55 @@ function initGlobalEvents() {
         }
     });
 }
-
+    
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearch');
+    const logoutBtn = document.querySelector('.logout');
 window.addEventListener('keydown', (e) => {
-    const playerOpen = document.getElementById("player").style.display === "flex";
-    const modalOpen = document.getElementById("seriesModal").style.display === "flex";
-    const isFullScreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
+// Definimos los elementos del header
+    // 1. Si estamos en el INPUT de búsqueda
+    if (document.activeElement === searchInput) {
+        if (e.key === "ArrowRight") {
+            e.preventDefault();
+            clearBtn.focus(); // Salta a la X
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const firstCard = document.querySelector('.card');
+            if(firstCard) firstCard.focus();
+        } else if (e.key === "ArrowLeft" || e.key === "Backspace") {
+            e.stopPropagation(); // Permite moverse entre letras o borrar
+        }
+        return;
+    }
+
+    // 2. Si estamos en el BOTÓN X (Borrar)
+    if (document.activeElement === clearBtn) {
+        if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            searchInput.focus(); // Vuelve al texto
+        } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            if(logoutBtn) logoutBtn.focus(); // Salta a Salir
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const firstCard = document.querySelector('.card');
+            if(firstCard) firstCard.focus();
+        }
+        return;
+    }
+
+    // 3. Si estamos en el BOTÓN SALIR
+    if (document.activeElement === logoutBtn) {
+        if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            clearBtn.focus(); // Vuelve a la X
+        } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const firstCard = document.querySelector('.card');
+            if(firstCard) firstCard.focus();
+        }
+        return;
+    }
 
     if ([27, 8, 461, 10009].includes(e.keyCode)) {
         if (isFullScreen) {
@@ -918,6 +1155,22 @@ if (isMultiEpisode && nextBtn) {
 
     // Iniciar la reproducción con el controlador
     playerController.play({...v, url: finalUrl}); 
+
+    // --- AJUSTE PARA CONTROL REMOTO EN EL PLAYER ---
+setTimeout(() => {
+    // Forzamos el foco en el botón de cerrar para que el usuario pueda salir fácilmente
+    const closeBtn = document.querySelector(".player .close");
+    if (closeBtn) {
+        closeBtn.focus();
+        // Aseguramos que sea visible para el usuario de TV
+        closeBtn.style.opacity = "1";
+    }
+    
+    // Si el video ya cargó, también podríamos enfocar el video mismo 
+    // para que el botón OK del control funcione como Play/Pausa
+    const videoElem = document.getElementById("video");
+    if (videoElem) videoElem.tabIndex = 0; 
+}, 1000);
 };
 
 window.togglePlay = () => {
@@ -985,6 +1238,17 @@ window.openSeriesModal = async (v) => {
     wlBtn.classList.toggle("active", isWL);
     wlBtn.innerText = isWL ? "✓" : "+";
     wlBtn.onclick = () => window.toggleWatchLater(v);
+
+setTimeout(() => {
+    const playBtn = document.getElementById("modalPlayBtn");
+    if (playBtn && playBtn.style.display !== "none") {
+        playBtn.focus();
+    } else {
+        // Si es una serie, enfocamos la primera temporada disponible
+        const firstSeason = document.querySelector(".season-option");
+        if (firstSeason) firstSeason.focus();
+    }
+}, 400);
 
     if (v.trailerID) {
         modalHero.innerHTML = `
@@ -1166,7 +1430,16 @@ function buildUI(){
         <div class="row"><h2>📺 Series</h2><div class="carousel" id="seriesRow"></div></div>
         <div class="row"><h2>🍥 Anime</h2><div class="carousel" id="animeRow"></div></div>`;
     renderAll(); 
-    setupHeroBanner(); 
+    setupHeroBanner();
+    setTimeout(() => {
+        const firstCard = document.querySelector('.card');
+        if (firstCard) {
+            firstCard.focus();
+        } else {
+            const searchInput = document.getElementById('search');
+            if (searchInput) searchInput.focus();
+        }
+    }, 1000);
 }
 
 function shuffleArray(array) {
@@ -1368,7 +1641,7 @@ window.addEventListener('scroll', () => {
 // EXPOSICIÓN DE FUNCIONES GLOBALES
 window.closeVideo = closeVideo;
 window.togglePlay = togglePlay;
-window.nextEpisode = nextEpisode;S
+window.nextEpisode = nextEpisode;
 window.prevEpisode = prevEpisode;
 window.toggleFullScreen = toggleFullScreen;
 window.openVideo = openVideo;
@@ -1391,6 +1664,22 @@ function showNextButton() {
 // Evento para mostrar botón al mover mouse/tocar en el player
 document.getElementById('player').addEventListener('mousemove', showNextButton);
 document.getElementById('player').addEventListener('touchstart', showNextButton);
+    document.getElementById('clearSearch').addEventListener('click', () => {
+    const sInput = document.getElementById('searchInput');
+    sInput.value = ''; // Limpia el texto
+    sInput.focus();    // Devuelve el foco al buscador
+    
+    // Disparamos el evento input para que tu función de filtrado detecte el cambio
+    sInput.dispatchEvent(new Event('input', { bubbles: true }));
+});
+
+// Para que funcione con la tecla OK/Enter del control remoto
+document.getElementById('clearSearch').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        e.currentTarget.click();
+    }
+});
 
 </script>
 </body>
